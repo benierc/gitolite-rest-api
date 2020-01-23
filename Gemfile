@@ -2,8 +2,10 @@ source 'https://rubygems.org'
 
 gem 'gitolite'
 gem 'json'
-gem 'sinatra', git: 'https://github.com/juanpastas/sinatra.git'
-gem 'sinatra-contrib', git: 'https://github.com/sinatra/sinatra-contrib.git'
+gem 'sinatra', :github => 'sinatra/sinatra'
+github 'sinatra/sinatra' do
+  gem 'sinatra-contrib'
+end
 gem 'rack-contrib'
 gem 'thin'
 
@@ -15,3 +17,4 @@ end
 group :development do
   gem "shotgun"
 end
+
