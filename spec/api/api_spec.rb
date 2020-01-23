@@ -48,20 +48,6 @@ describe Sinatra::Application do
     end
   end
 
-  context "responding to DELETE /repos" do
-    it "should delete the repository" do
-      repo_config_double.should_receive(:remove_repo).with(repo_name)
-
-      delete "/repos/#{repo_name}"
-      last_response.status.should be_eql deleted_http_status
-    end
-
-    it "should not delete gitolite-admin repository" do
-      delete "/repos/gitolite-admin"
-      last_response.status.should be_eql forbidden_http_status
-    end
-  end
-
   context "responding to GET /users" do
 
     it "should return the list of users" do
@@ -79,20 +65,6 @@ describe Sinatra::Application do
 
       post '/users', :username => username, :ssh_key => ssh_key
       last_response.status.should be_eql created_http_status
-    end
-  end
-
-  context "responding to DELETE /users" do
-    it "should delete the user" do
-      repo_config_double.should_receive(:remove_user).with(username)
-
-      delete "/users/#{username}"
-      last_response.status.should be_eql deleted_http_status
-    end
-
-    it "should not delete admin user" do
-      delete "/users/id_rsa"
-      last_response.status.should be_eql forbidden_http_status
     end
   end
 
@@ -128,24 +100,6 @@ describe Sinatra::Application do
 
       post "/groups/#{group_name}/user", :username => username
       last_response.status.should be_eql created_http_status
-    end
-  end
-
-  context "responding DELETE /groups" do
-    it "should delete the group with all users" do
-      repo_config_double.should_receive(:remove_group).with(group_name)
-
-      delete "/groups/#{group_name}"
-      last_response.status.should be_eql deleted_http_status
-    end
-  end
-
-  context "responding DELETE /groups/:group_name/user/:username" do
-    it "should remove the user from the group" do
-      repo_config_double.should_receive(:remove_from_group).with(username, group_name)
-
-      delete "/groups/#{group_name}/user/#{username}"
-      last_response.status.should be_eql deleted_http_status
     end
   end
 
